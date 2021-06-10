@@ -3,7 +3,7 @@
 A web tool designed to track user budgets offline or online
 
 Deployed Site: https://billsbills.herokuapp.com/
-
+Repo: https://github.com/adecapite/budgetTracker
 <img width="848" alt="Screen Shot 2021-06-10 at 4 17 22 PM" src="https://user-images.githubusercontent.com/77472956/121592890-42d98480-ca09-11eb-8ce1-44eacd3201a0.png">
 The dashboard will ask for the name of the transactions and how much money will be depositied or withdrawn
 
