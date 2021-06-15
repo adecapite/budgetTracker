@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 let db;
 const request = indexedDB.open("budget", 1);
 
@@ -20,5 +22,37 @@ request.onerror = function (event){
 function saveRecord(record) {
     const transaction = db.transactopn(["pending"], "readwrite");
     const store = transaction.objectStore("pending");
-    const getAll = store.getAll();
+    
+    store.add(record);
 }
+function checkDatabase(){
+    const transaction = db.transaction(["pending"], "readwrite");
+    const store = transaction.objectstore("pending");
+    const getAll = store.getAll();
+
+    getAll.onsuccess = function () {
+        if (getAll.result.length > 0){
+            fetch("/api/transaction/bulk", {
+                method: "POST",
+                body: json.stringify(getAll.result),
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then (() => {
+                const transaction = db.transaction(["pending"], "readwrite");
+                const store = transaction.objectStore("pending");
+                store.clear();
+            });
+        }
+    };
+}
+function deletePending(){
+    const transaction = db.transaction(["pending"], "readwrite");
+    const store = transaction.objectStore("pending");
+    store.clear();
+}
+
+window.addEventListener("online", checkDatabase);
