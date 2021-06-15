@@ -16,3 +16,9 @@ request.onsuccess = function (event){
 request.onerror = function (event){
     console.log("error" + event.target.errorCode);
 };
+
+function saveRecord(record) {
+    const transaction = db.transactopn(["pending"], "readwrite");
+    const store = transaction.objectStore("pending");
+    const getAll = store.getAll();
+}
